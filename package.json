@@ -10,6 +10,8 @@
     "astro": "astro"
   },
   "dependencies": {
-    "astro": "^4.15.3"
+    "astro": "^4.15.3",
+    "firebase": "^10.13.1",
+    "firebase-admin": "^12.4.0"
   }
 }
