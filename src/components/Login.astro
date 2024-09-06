@@ -1,0 +1,66 @@
+---
+import { auth } from "../firebase/client.ts";
+import { signInWithEmailAndPassword } from "firebase/auth";
+
+
+let email = "test@test.com";
+let password = "test1234";
+let errorMessage = "";
+
+const handleLogin = async () => {
+  if (!email || !password) {
+      errorMessage = 'Email and password are required!';
+      return;
+    }
+  try {
+    const userCredential = await signInWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
+    console.log("User signed in successfully:", userCredential.user);
+  } catch (error) {
+    console.error("Error signing in:", error);
+    errorMessage = error.message;
+  }
+};
+---
+
+<!-- Login with email and password -->
+<form>
+  <label for="email">Email:</label>
+  <input
+    type="email"
+    id="email"
+    oninput={(e : InputHTMLAtrributes) => (email = e.target.value)}
+  />
+
+  <label for="password">Password:</label>
+  <input 
+    type="password"
+    id="password"
+    oninput={(e : InputHTMLAttributes) => (password = e.target.value)}
+  />
+
+  <button type="button" onclick={handleLogin()}>Login</button>
+  {errorMessage && <p>{errorMessage}</p>}
+</form>
+<script>
+const handleLogin = async () => {
+  if (!email || !password) {
+      errorMessage = 'Email and password are required!';
+      return;
+    }
+  try {
+    const userCredential = await signInWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
+    console.log("User signed in successfully:", userCredential.user);
+  } catch (error) {
+    console.error("Error signing in:", error);
+    errorMessage = error.message;
+  }
+};
+</script>

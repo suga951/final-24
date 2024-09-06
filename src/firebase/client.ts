@@ -1,4 +1,5 @@
 import { initializeApp } from "firebase/app";
+import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 
 const firebaseConfig = {
   apiKey: import.meta.env.FIREBASE_API_KEY,
@@ -10,5 +11,22 @@ const firebaseConfig = {
 };
 
 export const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const provider = new GoogleAuthProvider();
+
+
+const signInWithGoogle = async () => {
+  try{
+    const result = await signInWithPopup(auth, provider);
+    const credential = GoogleAuthProvider.credentialFromResult(result);
+    const token = credential.accessToken;
+    const user = result.user;
+    console.log("User info: ", user);
+  } catch(error){
+    console.error("Error during sign-in: ", error);
+  }
+};
+
+export { auth, provider, signInWithGoogle}
 
 
