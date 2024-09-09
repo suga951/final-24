@@ -1,0 +1,32 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title='Welcome to Astro.'>
+  <footer class='footer'>
+    <h3>@AlertAR</h3>
+  </footer>
+</Layout>
+
+<style>
+  .footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 4rem;
+    font-size: 1.2rem;
+    position: relative;
+    background-color: azure;
+  }
+
+  @media (width >=769px) {
+    .footer {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      position: relative;
+      background-color: azure;
+    }
+  }
+</style>
