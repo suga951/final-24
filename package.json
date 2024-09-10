@@ -14,7 +14,11 @@
     "@astrojs/tailwind": "^5.1.0",
     "astro": "^4.15.3",
     "firebase": "^10.13.1",
-    "firebase-admin": "^12.4.0",
+    "firebase-admin": "^12.4.0"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.4.45",
     "tailwindcss": "^3.4.10"
   }
 }
