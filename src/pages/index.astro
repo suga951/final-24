@@ -1,17 +1,16 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import ThemeIcon from '../components/ThemeIcon.astro';
+import ThemeIcon from '../components/DarkModeToggle.astro';
 import StartPage from '../components/StartPage.astro';
 import LoginModal from '../components/LoginModal.astro';
 import RegisterModal from '../components/RegisterModal.astro';
 ---
 
 <Layout title="Bienvenido a AlertAR.">
-  <main>
-    <ThemeIcon />
+	<main>
+	<ThemeIcon />
     <StartPage />
-    <RegisterModal />
     <LoginModal />
+    <RegisterModal />
   </main>
-  <script src="/scripts/modal.js" defer></script>
 </Layout>

@@ -1,36 +1,18 @@
----
-
----
-
-<body class="bg-blue-400 text-black dark:bg-blue-900 dark:text-white">
-  <div class="switch-container">
-    <div class="icons"></div>
-    <label class="switch">
-      <input type="checkbox" id="themeToggle" />
-      <div class="slider"></div>
-    </label>
-  </div>
-
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dark Mode Toggle</title>
   <style>
-    body {
-      transition:
-        background-color 0.5s ease,
-        color 0.5s ease;
-    }
-
-    .dark .bg-blue-900 {
-      background-color: #1f2d3d;
-    }
-
-    .dark .text-white {
-      color: #ffffff;
-    }
     .switch-container {
+      position: fixed;
       display: flex;
       align-items: center;
       gap: 10px;
-      margin-top: 2rem;
+      margin-top: 2em;
       margin-left: 2em;
+      z-index: 9999;
     }
 
     .switch {
@@ -77,8 +59,32 @@
     input:checked + .slider:before {
       transform: translateX(26px);
     }
+
+    .sun-moon-container {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      color: white;
+      font-size: 24px;
+    }
+
+    .sun, .moon {
+      flex-shrink: 0;
+    }
   </style>
-  <script src="/scripts/toggleDarkMode.js" defer>
-			
-  </script>
+</head>
+<body class="bg-blue-400 text-black dark:bg-blue-900 dark:text-white">
+  <div class="switch-container">
+    <div class="sun-moon-container">
+      <span class="sun">&#9728;</span> <!-- unicode para el sol-->
+      <label class="switch">
+        <input type="checkbox" id="themeToggle" />
+        <div class="slider"></div>
+      </label>
+      <span class="moon">&#9790;</span> <!-- Unicode para la luna -->
+    </div>
+  </div>
+
+  <script src="/scripts/toggleDarkMode.js" defer></script>
 </body>
+</html>

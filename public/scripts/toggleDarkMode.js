@@ -3,11 +3,9 @@ const toggleDarkMode = () => {
     const isDarkMode = document.documentElement.classList.contains("dark");
     localStorage.setItem("theme", isDarkMode ? "dark" : "light");
   };
-
-  document
-    .getElementById("themeToggle")
-    .addEventListener("click", toggleDarkMode);
-
+  
+  document.getElementById("themeToggle").addEventListener("click", toggleDarkMode);
+  
   // Aplicar el tema guardado en localStorage al cargar la página
   const savedTheme = localStorage.getItem("theme");
   if (savedTheme === "dark") {
@@ -17,3 +15,4 @@ const toggleDarkMode = () => {
     document.documentElement.classList.remove("dark");
     document.getElementById("themeToggle").checked = false;
   }
+  
