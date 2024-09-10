@@ -1,0 +1,28 @@
+<div style="display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 1rem;">
+    <div style="max-width: 28rem; width: 100%; margin: 0 1rem; padding: 2rem; border-radius: 1rem; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+      
+      <!-- logo-->
+      <div style="display: flex; justify-content: center; margin-bottom: 1.5rem;">
+        <img src="/public/reset-password.webp" alt="Logo" style="width: 10em; height: 10em;">
+      </div>
+  
+      
+      <h2 style="font-size: 1.5rem; font-weight: 600; text-align: center; color: #d9dada; margin-bottom: 1.5rem;">Recuperar Contraseña</h2>
+  
+      <!-- form -->
+      <form id="forgot-password-form" method="POST" action="/api/forgot-password">
+        <div style="margin-bottom: 1.5rem;">
+          <label for="email" style="display: block; color: white; font-size: 0.875rem; font-weight: 700; margin-bottom: 0.5rem;">Ingresa tu correo electrónico:</label>
+          <input type="email" id="email" name="email" required style="width: 100%; padding: 0.75rem 1rem; border: 1px solid #d1d5db; border-radius: 0.75rem; background-color: #fafafa; color: #0d0c0c; outline: none; box-shadow: inset 0 0 0 2px #3b82f6;">
+        </div>
+  
+        <div style="display: flex; justify-content: center;">
+          <button type="submit" style="background-color: #ef4444; color: #ffffff; font-weight: 700; padding: 0.75rem 1.5rem; border-radius: 9999px; width: 100%; cursor: pointer; border: none; outline: none; transition: background-color 0.3s;">
+            Enviar correo de restablecimiento
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+  
+  <!-- le puse estilos en linea porque se ve que se estan pisando estilos tenggo que revisar bien seguramente tenga que ver con el layout -->

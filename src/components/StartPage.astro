@@ -1,0 +1,32 @@
+---
+import ThemeIcon from '../components/ThemeIcon.astro';
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>AlertAR</title>
+  </head>
+  <body class="bg-blue-400 text-black dark:bg-blue-900 dark:text-white">
+    <div class="flex flex-col items-center gap-4 mt-12">
+      <img src="/logo.webp" alt="AlertAR Logo" class="w-48" />
+      <h1 class="text-3xl font-bold">AlertAR</h1>
+      <h2 class="text-lg font-medium">Tu barrio seguro</h2>
+    </div>
+    <div class="flex flex-col items-center gap-4 mt-8">
+      <button
+        class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg w-48"
+        id="openLoginModalBtn"
+      >
+        Iniciar Sesión
+      </button>
+      <button
+        class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg w-48"
+        id="openRegisterModalBtn"
+      >
+        Registrarse
+      </button>
+    </div>
+  
+  </body>
+</html>
