@@ -7,6 +7,7 @@ const { title } = Astro.props;
 ---
 
 <!doctype html>
+<<<<<<< HEAD
 <html lang='es'>
   <head>
     <meta charset='UTF-8' />
@@ -17,10 +18,23 @@ const { title } = Astro.props;
     <title>{title}</title>
   </head>
   <body class='estructura'>
+=======
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content="Astro description" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+  </head>
+  <body>
+>>>>>>> arsabot-rs
     <slot />
   </body>
 </html>
 <style is:global>
+<<<<<<< HEAD
 <<<<<<< HEAD
   html {
     font-size: 16px;
@@ -86,5 +100,18 @@ const { title } = Astro.props;
 			Courier New,
 			monospace;
 	}
+>>>>>>> arsabot-rs
+=======
+  code {
+    font-family:
+      Menlo,
+      Monaco,
+      Lucida Console,
+      Liberation Mono,
+      DejaVu Sans Mono,
+      Bitstream Vera Sans Mono,
+      Courier New,
+      monospace;
+  }
 >>>>>>> arsabot-rs
 </style>

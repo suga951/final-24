@@ -54,12 +54,13 @@ import Layout from '../layouts/Layout.astro';
 </style>
 =======
 import ThemeIcon from '../components/ThemeIcon.astro';
-import StartPage from '../components/StartPage.astro'
-import LoginModal from '../components/LoginModal.astro'
-import RegisterModal from '../components/RegisterModal.astro'
+import StartPage from '../components/StartPage.astro';
+import LoginModal from '../components/LoginModal.astro';
+import RegisterModal from '../components/RegisterModal.astro';
 ---
 
 <Layout title="Bienvenido a AlertAR.">
+<<<<<<< HEAD
 	<body>
 		
 		<main>
@@ -72,5 +73,15 @@ import RegisterModal from '../components/RegisterModal.astro'
 			
 		</script>
 	</body>
+</Layout>
+>>>>>>> arsabot-rs
+=======
+  <main>
+    <ThemeIcon />
+    <StartPage />
+    <RegisterModal />
+    <LoginModal />
+  </main>
+  <script src="/scripts/modal.js" defer></script>
 </Layout>
 >>>>>>> arsabot-rs
