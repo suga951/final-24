@@ -1,9 +1,10 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import Footer from '../components/Footer.astro';
 ---
 
 <Layout title='Welcome to Astro.'>
-  <main>
+  <main class='main'>
     <section>
       <article>
         <h2>Crear comunidad</h2>
@@ -20,13 +21,13 @@ import Layout from '../layouts/Layout.astro';
       </article>
     </section>
   </main>
+  <Footer />
 </Layout>
 
 <script></script>
 
 <style>
   main {
-    margin-top: 10vh;
     display: flex;
     justify-content: center;
     align-items: center;
