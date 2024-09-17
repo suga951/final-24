@@ -1,0 +1,45 @@
+---
+import Layout from '../layouts/LayoutGrid.astro';
+---
+
+<Layout title='Welcome to Astro.'>
+  <nav>
+    <ul class='navbar__menu'>
+      <li class='navbar__items'>
+        <a href='' class='navbar__links'>
+          <picture><img src='' alt='' /> </picture>
+        </a>
+      </li>
+      <li class='navbar__items'><a href='' class='navbar__links'>Inicio</a></li>
+      <li class='navbar__items'><a href='' class='navbar__links'>Ayuda</a></li>
+      <li class='navbar__items'><a href='' class='navbar__links'>Perfil</a></li>
+    </ul>
+  </nav>
+</Layout>
+
+<script></script>
+
+<style>
+  .navbar__menu {
+    display: flex;
+    justify-content: space-around;
+    font-size: 1.4rem;
+    list-style-type: none;
+    background-color: rgb(102, 102, 237);
+    padding: 0.4em;
+  }
+  .navbar__links {
+    color: #000;
+    font-weight: bold;
+  }
+
+  @media (width <= 768px) {
+    .navbar__menu {
+      display: flex;
+      justify-content: space-evenly;
+      font-size: 1.4rem;
+      list-style-type: none;
+      background-color: rgb(102, 102, 237);
+    }
+  }
+</style>

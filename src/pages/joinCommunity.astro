@@ -1,0 +1,54 @@
+---
+import Layout from '../layouts/LayoutGrid.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<Layout title='Welcome to Astro.'>
+  <main class='main'>
+    <section>
+      <article>
+        <h2>Crear comunidad</h2>
+        <input type='text' name='nueva-comunidad' id='crearComunidad' />
+      </article>
+    </section>
+
+    <br /><br /><br /><br />
+
+    <section>
+      <article>
+        <h2>Unirse a comunidad</h2>
+        <input type='text' name='comunidad-existente' id='unirmeComunidad' />
+      </article>
+    </section>
+  </main>
+  <Footer />
+</Layout>
+
+<script></script>
+
+<style>
+  main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+
+  section {
+    text-align: center;
+    background-color: rgb(80, 80, 242);
+    padding: 1em;
+    border-radius: 30px;
+    font-size: 1.3rem;
+    width: max-content;
+    border: thin solid black;
+  }
+  input[type='text'] {
+    width: min-content;
+    padding: 0.3em;
+    border-radius: 10px;
+    font-weight: bold;
+    margin-top: 0.5em;
+    font-size: 1.2rem;
+  }
+</style>
