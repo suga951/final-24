@@ -1,8 +1,4 @@
 ---
-interface Props {
-  title: string;
-}
-
 const { title } = Astro.props;
 ---
 
@@ -16,21 +12,32 @@ const { title } = Astro.props;
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
   </head>
-  <body>
-    <slot />
+  <body class=" bg-blue-400 text-black dark:bg-blue-900 dark:text-white">
+    <main>
+      <slot />
+    </main>
   </body>
 </html>
+
 <style is:global>
-	 body {
-      transition: background-color 0.5s ease, color 0.5s ease;
-    }
+  body {
+    transition: background-color 0.5s ease, color 0.5s ease;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
 
-    .bg-white, .dark .bg-gray-800 {
-      transition: background-color 0.5s ease;
-    }
+  main {
+    flex-grow: 1;
+  }
 
-    .text-gray-700, .dark .text-gray-300 {
-      transition: color 0.5s ease;
-    }
-  </style>
-  
+  .bg-white,
+  .dark .bg-gray-800 {
+    transition: background-color 0.5s ease;
+  }
+
+  .text-gray-700,
+  .dark .text-gray-300 {
+    transition: color 0.5s ease;
+  }
+</style>

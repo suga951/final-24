@@ -1,16 +1,16 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import ThemeIcon from '../components/DarkModeToggle.astro';
-import StartPage from '../components/StartPage.astro';
-import LoginModal from '../components/LoginModal.astro';
-import RegisterModal from '../components/RegisterModal.astro';
+import Layout from "../layouts/Layout.astro";
+import ThemeIcon from "../components/DarkModeToggle.astro";
+import StartPage from "../components/StartPage.astro";
+import LoginModal from "../components/LoginModal.astro";
+import RegisterModal from "../components/RegisterModal.astro";
 ---
 
 <Layout title="Bienvenido a AlertAR.">
-	<main>
-	<ThemeIcon />
-    <StartPage />
+  <main>
     <LoginModal />
     <RegisterModal />
+    <ThemeIcon />
+    <StartPage />
   </main>
 </Layout>
