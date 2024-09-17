@@ -1,0 +1,40 @@
+---
+import Layout from "../layouts/Layout.astro";
+import EmergencyMenu from '../components/EmergencyMenu';
+import AlertButton from '../components/AlertButton.astro';
+import ChatApp from '../components/ChatApp.jsx'
+---
+
+<Layout>
+  
+  <div class="flex flex-col items-center justify-center min-h-screen bg-blue-100 relative">
+    
+    <ChatApp />
+    <div>
+      <AlertButton/>
+      <EmergencyMenu client:load/>
+    </div>
+
+  
+    <nav class="w-full fixed bottom-0 lg:top-0 lg:bottom-auto bg-blue-600 text-white flex justify-around items-center py-4 shadow-md lg:flex-row flex-row">
+      <a href="/chat" class="flex flex-col items-center">
+        <img src="/icons/home.webp" alt="Inicio" class="w-6 h-6 mb-1" />
+        <span class="text-xs">Inicio</span>
+      </a>
+      <a href="/help" class="flex flex-col items-center">
+        <img src="/icons/help-icon.webp" alt="Ayuda" class="w-6 h-6 mb-1" />
+        <span class="text-xs">Ayuda</span>
+      </a>
+      <a href="/profile" class="flex flex-col items-center">
+        <img src="/icons/profile-icon.webp" alt="Perfil" class="w-6 h-6 mb-1" />
+        <span class="text-xs">Perfil</span>
+      </a>
+      <a href="/" class="flex flex-col items-center lg:absolute lg:right-8">
+        <img src="/icons/logout-icon.webp" alt="Cerrar Sesión" class="w-6 h-6 mb-1" />
+        <span class="text-xs">Cerrar Sesión</span>
+        
+      </a>
+    </nav>
+  </div>
+
+</Layout>
