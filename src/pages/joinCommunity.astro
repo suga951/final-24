@@ -1,0 +1,83 @@
+---
+import Layout from '../layouts/LayoutGrid.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<Layout title='Welcome to Astro.'>
+  <main class='main'>
+    <section>
+      <form action='' method='post'>
+        <h2>Crear comunidad</h2>
+        <input
+          type='text'
+          name='nueva-comunidad'
+          id='crearComunidad'
+          required
+        />
+        <input type='submit' value='Crear' />
+      </form>
+    </section>
+
+    <br /><br /><br /><br />
+
+    <section>
+      <form action='' method='post'>
+        <h2>Unirse a comunidad</h2>
+        <input
+          type='text'
+          name='comunidad-existente'
+          id='unirmeComunidad'
+          required
+        />
+        <input type='submit' value='Unirse' />
+      </form>
+    </section>
+  </main>
+  <Footer />
+</Layout>
+
+<script></script>
+
+<style>
+  main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+
+  section {
+    text-align: center;
+    background-color: rgb(80, 80, 242);
+    padding: 1em;
+    border-radius: 30px;
+    font-size: 1.3rem;
+    width: max-content;
+    border: thin solid black;
+  }
+  input[type='text'] {
+    width: min-content;
+    padding: 0.3em;
+    border-radius: 10px;
+    font-weight: bold;
+    margin-top: 0.5em;
+    font-size: 1.2rem;
+  }
+  form {
+    display: flex;
+    flex-direction: column;
+  }
+  input[type='submit'] {
+    border: thin solid green;
+    background-color: rgb(22, 214, 198);
+    width: 50%;
+    margin: 0 auto;
+    margin-top: 0.2em;
+    cursor: pointer;
+    transition: all 0.3s ease-out;
+    border-radius: 15px;
+  }
+  input[type='submit']:active {
+    transform: scale(0.9);
+  }
+</style>

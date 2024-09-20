@@ -1,0 +1,104 @@
+---
+import Layout from '../layouts/LayoutGrid.astro';
+import Header from '../components/Header.astro';
+import logoAlarma from '../assets/alarma.jpg';
+import logoReporte from '../assets/reporte.png';
+import logoChat from '../assets/chat.jpg';
+import Footer from '../components/Footer.astro';
+---
+
+<Layout title='Welcome to Astro.'>
+  <Header />
+  <main class='main'>
+    <div class='container'>
+      <section class='alarma'>
+        <figure>
+          <picture>
+            <img class='logo' src={logoAlarma.src} alt='logoalarma' />
+            <figcaption></figcaption>
+          </picture>
+        </figure>
+      </section>
+
+      <section class='reporte'>
+        <figure>
+          <picture>
+            <img class='logo' src={logoReporte.src} alt='logoReporte' />
+            <figcaption></figcaption>
+          </picture>
+        </figure>
+      </section>
+
+      <section class='chat'>
+        <figure>
+          <picture>
+            <img class='logo' src={logoChat.src} alt='logoChat' />
+            <figcaption></figcaption>
+          </picture>
+        </figure>
+      </section>
+    </div>
+  </main>
+  <Footer />
+</Layout>
+
+<style>
+  main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  @media (width <= 768px) {
+    .container {
+      width: 80%;
+      display: grid;
+      place-content: center;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: repeat(2, 1fr);
+      padding: 1em;
+      gap: 0.5em;
+    }
+
+    .alarma {
+      grid-column: 2 / 3;
+      grid-row: 1 / 2;
+    }
+
+    .reporte {
+      grid-column: 1 / 2;
+      grid-row: 2 / 3;
+    }
+
+    .chat {
+      grid-column: 3 / 4;
+      grid-row: 2 / 3;
+    }
+  }
+
+  @media (width >=769px) {
+    .container {
+      width: 80%;
+      margin-top: 5rem;
+      display: grid;
+      place-content: center;
+      grid-template-columns: repeat(3, 1fr);
+      padding: 1em;
+      gap: 1em;
+    }
+
+    .alarma {
+      grid-column: 2 / 3;
+      grid-row: 1 / 2;
+    }
+
+    .reporte {
+      grid-column: 1 / 2;
+      grid-row: 1 / 3;
+    }
+
+    .chat {
+      grid-column: 3 / 4;
+      grid-row: 1 / 3;
+    }
+  }
+</style>
