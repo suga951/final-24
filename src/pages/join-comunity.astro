@@ -1,0 +1,83 @@
+---
+import { useState } from 'react';
+import Layout from '../layouts/Layout.astro';
+import DarkModeToggle from '../components/DarkModeToggle.astro';
+
+// Ejemplo de comunidades (esto normalmente vendría de una base de datos)
+const comunidades = [
+  { id: 1, nombre: 'Comunidad de Palermo', codigoPostal: '1425', descripcion: 'Comunidad activa en Palermo, Buenos Aires.' },
+  { id: 2, nombre: 'Comunidad de Belgrano', codigoPostal: '1428', descripcion: 'Vecinos de Belgrano.' },
+  { id: 3, nombre: 'Comunidad de Recoleta', codigoPostal: '1425', descripcion: 'Grupo de seguridad vecinal en Recoleta.' },
+  { id: 4, nombre: 'Comunidad de Caballito', codigoPostal: '1405', descripcion: 'Comunidad unida en Caballito.' },
+];
+
+const filterComunidades = (codigoPostal) => {
+  return comunidades.filter(comunidad => comunidad.codigoPostal === codigoPostal);
+};
+
+const handleSubmit = (event) => {
+  event.preventDefault();
+  const formData = new FormData(event.target);
+  const codigoPostal = formData.get('codigoPostal');
+  const filteredCommunities = filterComunidades(codigoPostal);
+  // Aquí podrías manejar la lógica para mostrar las comunidades filtradas
+};
+---
+
+<Layout title="Unirse a Comunidad">
+  <DarkModeToggle />
+
+  <div class="flex flex-col min-h-screen">
+    <div class="flex flex-col items-center justify-center flex-grow p-4">
+      <div class="max-w-md w-full mx-4 p-8 bg-transparent dark:bg-transparent rounded-none shadow-none">
+
+        <header>
+          <h1 class="text-3xl mb-6">Unirse a una Comunidad</h1>
+          <p class="text-lg mb-8">Ingresa tu código postal para encontrar comunidades cercanas.</p>
+        </header>
+
+        <!-- Formulario para ingresar código postal -->
+        <form onsubmit={handleSubmit} class="mb-6">
+          <div class="mb-4">
+            <label for="codigoPostal" class="block text-sm mb-2">Código Postal</label>
+            <input
+              type="text"
+              id="codigoPostal"
+              name="codigoPostal"
+              placeholder="Ingresa tu código postal"
+              class="shadow appearance-none border rounded-full w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              required
+            />
+          </div>
+          <button
+            type="submit"
+            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full w-full focus:outline-none focus:shadow-outline"
+          >
+            Buscar Comunidades
+          </button>
+        </form>
+
+        <!-- Mostrar ejemplos de comunidades -->
+        <section id="comunidades-list" class="mt-6">
+          <h2 class="text-2xl mb-4">Comunidades disponibles</h2>
+
+          <ul class="space-y-4">
+            {comunidades.map(comunidad => (
+              <li key={comunidad.id} class="p-4 bg-gray-100 dark:bg-gray-700 rounded-lg shadow-md">
+                <h3 class="text-xl font-bold mb-2">{comunidad.nombre}</h3>
+                <p class="text-sm mb-2">Código Postal: {comunidad.codigoPostal}</p>
+                <p class="text-sm">{comunidad.descripcion}</p>
+                <a
+                  href={`/comunidad/${comunidad.id}`}
+                  class="block mt-4 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full focus:outline-none focus:shadow-outline"
+                >
+                  Unirse
+                </a>
+              </li>
+            ))}
+          </ul>
+        </section>
+      </div>
+    </div>
+  </div>
+</Layout>

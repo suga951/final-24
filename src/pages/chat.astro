@@ -1,40 +1,46 @@
 ---
-import Layout from "../layouts/Layout.astro";
-import EmergencyMenu from '../components/EmergencyMenu';
-import AlertButton from '../components/AlertButton.astro';
-import ChatApp from '../components/ChatApp.jsx'
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import logoAlarma from '../assets/alarma.jpg';
+import logoReporte from '../assets/reporte.png';
+import logoChat from '../assets/chat.jpg';
+
 ---
 
-<Layout>
-  
-  <div class="flex flex-col items-center justify-center min-h-screen bg-blue-100 relative">
-    
-    <ChatApp />
-    <div>
-      <AlertButton/>
-      <EmergencyMenu client:load/>
+<Layout title='Welcome to Astro.'>
+  <Header />
+  <main class="flex justify-center items-center">
+    <div class="container grid gap-4 grid-cols-1 md:grid-cols-3 md:grid-rows-2 w-4/5 mt-20 md:mt-0">
+      <!-- Alarma Section -->
+      <section class="alarma col-start-1 col-end-2 md:col-start-2 md:col-end-3 row-start-1 row-end-2">
+        <figure>
+          <picture>
+            <img class="w-full h-auto object-cover" src={logoAlarma.src} alt="logoalarma" />
+            <figcaption></figcaption>
+          </picture>
+        </figure>
+      </section>
+
+      <!-- Reporte Section -->
+      <section class="reporte col-start-1 col-end-2 md:col-start-1 md:col-end-2 row-start-2 row-end-3 md:row-span-2">
+        <figure>
+          <picture>
+            <img class="w-full h-auto object-cover" src={logoReporte.src} alt="logoReporte" />
+            <figcaption></figcaption>
+          </picture>
+        </figure>
+      </section>
+
+      <!-- Chat Section -->
+      <section class="chat col-start-1 col-end-2 md:col-start-3 md:col-end-4 row-start-2 row-end-3 md:row-span-2">
+        <figure>
+          <picture>
+            <img class="w-full h-auto object-cover" src={logoChat.src} alt="logoChat" />
+            <figcaption></figcaption>
+          </picture>
+        </figure>
+      </section>
     </div>
-
-  
-    <nav class="w-full fixed bottom-0 lg:top-0 lg:bottom-auto bg-blue-600 text-white flex justify-around items-center py-4 shadow-md lg:flex-row flex-row">
-      <a href="/chat" class="flex flex-col items-center">
-        <img src="/icons/home.webp" alt="Inicio" class="w-6 h-6 mb-1" />
-        <span class="text-xs">Inicio</span>
-      </a>
-      <a href="/help" class="flex flex-col items-center">
-        <img src="/icons/help-icon.webp" alt="Ayuda" class="w-6 h-6 mb-1" />
-        <span class="text-xs">Ayuda</span>
-      </a>
-      <a href="/profile" class="flex flex-col items-center">
-        <img src="/icons/profile-icon.webp" alt="Perfil" class="w-6 h-6 mb-1" />
-        <span class="text-xs">Perfil</span>
-      </a>
-      <a href="/" class="flex flex-col items-center lg:absolute lg:right-8">
-        <img src="/icons/logout-icon.webp" alt="Cerrar Sesión" class="w-6 h-6 mb-1" />
-        <span class="text-xs">Cerrar Sesión</span>
-        
-      </a>
-    </nav>
-  </div>
-
+  </main>
+  <Footer />
 </Layout>

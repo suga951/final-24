@@ -1,10 +1,11 @@
 ---
 
 ---
+
 <!-- Botón de alerta -->
 <button
   id="alertButton"
-  class="fixed left-4 w-20 h-20 bg-red-500 text-white text-lg font-bold rounded-full shadow-lg active:shadow-sm active:translate-y-1 transition-all duration-200 z-50"
+  class="fixed left-4 w-24 h-24 bg-red-500 text-white text-lg font-bold rounded-full shadow-lg active:shadow-sm active:translate-y-1 transition-all duration-200 z-50 p-4"
   style="bottom: 80px;"
 >
   ALERTAR
@@ -38,8 +39,7 @@
           name="incident"
           placeholder="Descripción del incidente"
           class="shadow appearance-none border rounded-xl w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          required
-        ></textarea>
+          required></textarea>
       </div>
       <div class="mb-4">
         <label for="location" class="sr-only">Ubicación</label>
@@ -75,6 +75,8 @@
 <style>
   /* Transiciones para la animación */
   #alertModalContent {
-    transition: transform 0.3s ease, opacity 0.3s ease;
+    transition:
+      transform 0.3s ease,
+      opacity 0.3s ease;
   }
 </style>
