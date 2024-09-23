@@ -2,30 +2,21 @@ import React, { useState } from 'react';
 
 const AlertButton = () => {
   const [isModalOpen, setModalOpen] = useState(false);
-  const [isShaking, setShaking] = useState(false);
   const [isScreenRed, setScreenRed] = useState(false);
+  const [isShaking, setShaking] = useState(false);
 
   const handleButtonClick = () => {
-    // Iniciar animación de temblor
-    setShaking(true);
-
-    // Cambiar pantalla a rojo
     setScreenRed(true);
-
-    // Reproducir audio
     const audio = new Audio('/assets/audio/alerta_do_flequillo.mp3');
     audio.play();
-
-    // Después de un corto tiempo, detener el temblor y abrir el modal
     setTimeout(() => {
-      setShaking(false);
       setModalOpen(true);
-    }, 200); // Duración del temblor
+    }, 200);
   };
 
   const closeModal = () => {
     setModalOpen(false);
-    setScreenRed(false); // Volver la pantalla a su color original
+    setScreenRed(false);
   };
 
   return (
@@ -33,22 +24,24 @@ const AlertButton = () => {
       {/* Botón de alerta */}
       <button
         id="alertButton"
-        className={`fixed left-4 w-28 h-28 bg-red-500 text-white text-lg font-bold rounded-full shadow-lg active:shadow-sm active:translate-y-1 transition-all duration-200 z-50 flex items-center justify-center ${isShaking ? 'animate-shake' : ''}`}
-        style={{ bottom: '80px' }}
+        className={`flex flex-col items-center justify-center bg-red-500 text-white w-full h-40 md:h-64 rounded-full shadow-lg transition-all duration-200 hover:shadow-2xl ${isShaking ? 'animate-shake' : ''}`}
+        onMouseEnter={() => setShaking(true)}
+        onMouseLeave={() => setShaking(false)}
         onClick={handleButtonClick}
       >
-        ALERTAR
+        <img className="w-16 h-16 md:w-20 md:h-20" src="../assets/icons/alarm-icon.webp" alt="logo Alerta" />
+        <span className="mt-2 md:mt-4">Alertar</span>
       </button>
 
       {/* Modal del formulario de alerta */}
       {isModalOpen && (
         <section
           id="alertModal"
-          className={`fixed inset-0 flex items-center justify-center transition-all duration-300 ${isScreenRed ? 'bg-red-500' : 'bg-gray-900 bg-opacity-50'} dark:bg-opacity-70`}
+          className={`fixed inset-0 flex items-center justify-center transition-all duration-300 ${isScreenRed ? 'bg-red-500 bg-opacity-50' : 'bg-gray-900 bg-opacity-50'} dark:bg-opacity-70`}
         >
           <article
             id="alertModalContent"
-            className="bg-white dark:bg-gray-800 dark:text-white p-6 md:p-10 rounded-lg shadow-md w-full max-w-md relative transition-transform duration-300 transform scale-100 opacity-100"
+            className="bg-white dark:bg-gray-800 dark:text-white p-6 md:p-10 rounded-lg shadow-2xl w-full max-w-md relative transition-transform duration-300 transform scale-100 opacity-100"
           >
             <button
               className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 dark:text-gray-300 dark:hover:text-white"
@@ -114,7 +107,7 @@ const AlertButton = () => {
           75% { transform: translateX(-8px); }
         }
         .animate-shake {
-          animation: shake 2s;
+          animation: shake 0.2s infinite;
         }
       `}</style>
     </>

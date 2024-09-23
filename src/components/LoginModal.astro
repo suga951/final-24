@@ -1,9 +1,34 @@
+---
+// Este bloque debe ser asíncrono para manejar correctamente el uso de `await`
+import { app } from '../firebase/server';
+import { getAuth } from 'firebase-admin/auth';
+
+const auth = getAuth(app);
+
+async function checkSession() {
+  if (Astro.cookies.has('__session')) {
+    const sessionCookie = Astro.cookies.get('__session')?.value;
+    try {
+      const decodedCookie = await auth.verifySessionCookie(sessionCookie!);
+      if (decodedCookie) {
+        return Astro.redirect('/chat');
+      }
+    } catch (error) {
+      console.error("Error al verificar la cookie de sesión:", error);
+      // Manejo de errores, como invalidar la cookie si es necesario
+    }
+  }
+}
+
+await checkSession();
+---
+
 <div
   id="loginModal"
-  class="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center hidden dark:bg-opacity-70"
+  class="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center hidden dark:bg-opacity-70 z-50"
 >
   <section
-    class="bg-white dark:bg-gray-800 dark:text-white p-6 md:p-10 rounded-2xl shadow-md w-full max-w-md relative"
+    class="bg-gradient-to-b from-blue-300 to-blue-700 dark:bg-gradient-to-b dark:from-blue-800 dark:to-black dark:text-white p-6 md:p-10 rounded-2xl shadow-md w-full max-w-md relative"
   >
     <header class="flex justify-end">
       <button
@@ -16,8 +41,11 @@
       </button>
     </header>
     <main>
-      <h2 id="login-title" class="text-center text-2xl mb-4">Iniciar Sesión</h2>
-      <form id="loginForm" action="/login" method="post">
+        <section class="flex flex-col items-center justify-center mb-6">
+          <img src="/assets/icons/login-icon.webp" alt="Icono de inicio de sesión" class="w-12 h-12" />
+        <h2 id="login-title" class="text-center text-2xl mb-4">Iniciar Sesión</h2>
+      </section>
+      <form id="loginForm">
         <div class="mb-4">
           <label for="login-email" class="sr-only">Correo Electrónico</label>
           <input
@@ -40,9 +68,8 @@
             required
           />
         </div>
-        <button
+        <button 
           type="submit"
-          id="submit"
           class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full w-full focus:outline-none focus:shadow-outline"
         >
           Iniciar Sesión
@@ -63,35 +90,36 @@
       </div>
       <div class="flex flex-col gap-4 mb-6">
         <button
-        type="button"
-        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full w-full md:w-auto"
+          type="button"
+          class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full w-full md:w-auto"
         >
           <img
-          src="/img/fb.webp"
-          alt="Facebook icon"
-          class="w-6 h-6 inline-block"
+            src="assets/img/fb.webp"
+            alt="Facebook icon"
+            class="w-6 h-6 inline-block"
           />
           Iniciar con Facebook
         </button>
-        <button
-        type="button"
-        class="bg-red-400 hover:bg-red-500 text-white font-bold py-2 px-4 rounded-full w-full md:w-auto"
+        <button 
+          id="google"
+          type="button"
+          class="bg-red-400 hover:bg-red-500 text-white font-bold py-2 px-4 rounded-full w-full md:w-auto"
         >
           <img
-          src="assets/img/google.webp"
-          alt="Google icon"
-          class="w-6 h-6 inline-block"
+            src="assets/img/google.webp"
+            alt="Google icon"
+            class="w-6 h-6 inline-block"
           />
           Iniciar con Google
         </button>
         <button
-        type="button"
-        class="bg-gray-500 hover:bg-gray-800 text-white font-bold py-2 px-4 rounded-full w-full md:w-auto"
+          type="button"
+          class="bg-gray-500 hover:bg-gray-800 text-white font-bold py-2 px-4 rounded-full w-full md:w-auto"
         >
           <img
-          src="/img/apple.webp"
-          alt="Apple icon"
-          class="w-6 h-6 inline-block"
+            src="assets/img/apple.webp"
+            alt="Apple icon"
+            class="w-6 h-6 inline-block"
           />
           Iniciar con Apple
         </button>
@@ -99,35 +127,85 @@
     </footer>
   </section>
 </div>
-          <script defer>
-            document.getElementById("loginForm")
-              .addEventListener("submit", handleSubmit);
-    
-            async function handleSubmit(event) {
-              event.preventDefault();
-    
-              const formData = new FormData(event.target);
-              const email = formData.get("email");
-              const password = formData.get("password");
-    
-              try {
-                const response = await fetch("../api/auth/signin.js", {
-                  // Cambia el path según tu configuración
-                  method: "POST",
-                  headers: {
-                    "Content-Type": "application/json",
-                  },
-                  body: JSON.stringify({ email, password }),
-                });
-    
-                if (response.ok) {
-                  const data = await response.json();
-                  console.log("Registro Exitoso");
-                } else {
-                  console.error("Error al iniciar sesión");
-                }
-              } catch (error) {
-                console.error("Error:", error);
-              }
-            }
-          </script>
+
+<script>
+  import {
+    getAuth,
+    GoogleAuthProvider,
+    signInWithPopup,
+    signInWithEmailAndPassword,
+  } from 'firebase/auth';
+  import { app } from '../firebase/client';
+
+  const auth = getAuth(app);
+
+  document.addEventListener('DOMContentLoaded', () => {
+    // Iniciar sesion con correo y contraseña
+    const form = document.getElementById('loginForm');
+    if (form) {
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const email = document.getElementById('login-email').value;
+        const password = document.getElementById('login-password').value;
+
+        try {
+          const userCredential = await signInWithEmailAndPassword(auth, email, password);
+          const idToken = await userCredential.user.getIdToken();
+
+          // Hace una solicitud POST a tu API backend para manejar el inicio de sesión
+          const response = await fetch("/api/auth/signin", {
+            method: 'POST',
+            headers: {
+              Authorization: `Bearer ${idToken}`,
+              'Content-Type': 'application/json',
+            },
+          });
+
+          const data = await response.json();
+
+          // Redirige al usuario a la página de inicio
+          if (response.ok) {
+            window.location.assign("/home");
+          } else {
+            console.error("Error:", data);
+          }
+        } catch (error) {
+          console.error("Error al iniciar sesión:", error);
+        }
+      });
+    }
+
+    // Iniciar sesión con Google
+    const googleSignin = document.querySelector("#google"); // Asegúrate que este sea el ID correcto del botón
+    if (googleSignin) {
+      googleSignin.addEventListener("click", async () => {
+        const provider = new GoogleAuthProvider();
+        try {
+          // Abrir ventana emergente para Google Sign-In
+          const userCredential = await signInWithPopup(auth, provider);
+          const idToken = await userCredential.user.getIdToken();
+
+          // Hacer una solicitud POST a tu API backend para manejar el inicio de sesión
+          const response = await fetch("/api/auth/signin", {
+            method: 'POST',
+            headers: {
+              Authorization: `Bearer ${idToken}`,
+              'Content-Type': 'application/json',
+            },
+          });
+
+          const data = await response.json();
+
+          // Redirigir al usuario a la página de inicio
+          if (response.ok) {
+            window.location.assign("/home");
+          } else {
+            console.error("Error:", data);
+          }
+        } catch (error) {
+          console.error("Error al iniciar sesión con Google:", error);
+        }
+      });
+    }
+  });
+</script>

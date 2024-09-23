@@ -1,20 +1,24 @@
 <section
   id="registerModal"
-  class="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center hidden dark:bg-opacity-70"
+  class="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center hidden dark:bg-opacity-70 z-50"
+  aria-labelledby="register-title"
+  role="dialog"
+  aria-modal="true"
 >
   <article
-    class="bg-white dark:bg-gray-800 dark:text-white p-6 md:p-10 rounded-lg shadow-md w-full max-w-md relative"
+    class="bg-gradient-to-b from-blue-300 to-blue-700 dark:bg-gradient-to-b dark:from-blue-800 dark:to-black dark:text-white p-6 md:p-10 rounded-lg shadow-md w-full max-w-md relative"
   >
     <button
-      class="absolute top-4 right-4 text-gray-500 hover:text-gray-700 dark:text-gray-300 dark:hover:text-white"
+      class="absolute top-4 right-4 text-gray-800 hover:text-gray-700 dark:text-gray-300 dark:hover:text-white"
       id="closeRegisterModalBtn"
       type="button"
       aria-label="Cerrar modal"
     >
       Cerrar
     </button>
-    <header>
-      <h2 class="text-center text-2xl mb-4">Registrarse</h2>
+    <header class="flex flex-col items-center justify-center mb-6">
+      <img src="/assets/icons/registration-icon.webp" alt="Icono de registro" class="w-16 h-16" />
+      <h2 id="register-title" class="text-center text-2xl mb-4">Registrarse</h2>
     </header>
     <form action="/api/auth/register" method="post" id="registerForm">
       <div class="mb-4">
@@ -101,11 +105,8 @@
             class="h-4 w-4 rounded-md border-gray-300 focus:ring-blue-500 focus:ring-2"
             required
           />
-          <label for="terms" class="ml-2 text-gray-600 text-sm">
-            Acepto los <a
-              href="/terms-and-conditions"
-              class="text-blue-500 hover:text-blue-700"
-            >Términos y Condiciones</a>
+          <label for="terms" class="ml-2 text-white text-sm">
+            Acepto los <a href="/terms-and-conditions" class="text-blue-500 hover:text-blue-900">Términos y Condiciones</a>
           </label>
         </div>
       </div>
