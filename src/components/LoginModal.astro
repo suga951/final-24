@@ -1,3 +1,17 @@
+---
+import { app } from "../firebase/server";
+import { getAuth } from "firebase-admin/auth";
+
+const auth = getAuth(app);
+if (Astro.cookies.has("__session")) {
+  const sessionCookie = Astro.cookies.get("__session").value;
+  const decodedCookie = await auth.verifySessionCookie(sessionCookie);
+  if (decodedCookie) {
+    return Astro.redirect("/chat");
+  }
+}
+---
+
 <div
   id="loginModal"
   class="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center hidden dark:bg-opacity-70"
@@ -17,7 +31,7 @@
     </header>
     <main>
       <h2 id="login-title" class="text-center text-2xl mb-4">Iniciar Sesión</h2>
-      <form action="/login" method="post">
+      <form action="/api/auth/signin" method="post">
         <div class="mb-4">
           <label for="login-email" class="sr-only">Correo Electrónico</label>
           <input
@@ -63,38 +77,73 @@
       <div class="flex flex-col gap-4 mb-6">
         <button
           type="button"
-          class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full w-full md:w-auto"
-        >
-          <img
-            src="/img/fb.webp"
-            alt="Facebook icon"
-            class="w-6 h-6 inline-block"
-          />
-          Iniciar con Facebook
-        </button>
-        <button
-          type="button"
+          id="google"
           class="bg-red-400 hover:bg-red-500 text-white font-bold py-2 px-4 rounded-full w-full md:w-auto"
         >
           <img
-            src="/img/google.webp"
+            src="/assets/img/google.webp"
             alt="Google icon"
             class="w-6 h-6 inline-block"
           />
           Iniciar con Google
         </button>
-        <button
-          type="button"
-          class="bg-gray-500 hover:bg-gray-800 text-white font-bold py-2 px-4 rounded-full w-full md:w-auto"
-        >
-          <img
-            src="/img/apple.webp"
-            alt="Apple icon"
-            class="w-6 h-6 inline-block"
-          />
-          Iniciar con Apple
-        </button>
       </div>
     </footer>
   </section>
 </div>
+<script>
+  import {
+    getAuth,
+    inMemoryPersistence,
+    signInWithEmailAndPassword,
+    GoogleAuthProvider,
+    signInWithPopup,
+  } from "firebase/auth";
+  import { app } from "../firebase/client";
+
+  const auth = getAuth(app);
+  auth.setPersistence(inMemoryPersistence);
+
+  const form = document.querySelector("form") as HTMLFormElement;
+  form?.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const formData = new FormData(form);
+    const email = formData.get("email")?.toString();
+    const password = formData.get("password")?.toString();
+
+    if (!email || !password) {
+      return;
+    }
+    const userCredential = await signInWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
+    const idToken = await userCredential.user.getIdToken();
+    const response = await fetch("/api/auth/signin", {
+      headers: {
+        Authorization: `Bearer ${idToken}`,
+      },
+    });
+
+    if (response.redirected) {
+      window.location.assign(response.url);
+    }
+  });
+
+  const googleSignin = document.querySelector("#google") as HTMLButtonElement;
+  googleSignin?.addEventListener("click", async () => {
+    const provider = new GoogleAuthProvider();
+    const userCredential = await signInWithPopup(auth, provider);
+    const idToken = await userCredential.user.getIdToken();
+    const res = await fetch("/api/auth/signin", {
+      headers: {
+        Authorization: `Bearer ${idToken}`,
+      },
+    });
+
+    if (res.redirected) {
+      window.location.assign(res.url);
+    }
+  });
+</script>
