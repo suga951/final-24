@@ -1,0 +1,88 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const handleSubmit = async (event) => {
+  event.preventDefault();
+
+  const formData = new FormData(event.target);
+  const data = Object.fromEntries(formData.entries());
+
+  const response = await fetch('/api/comunidades', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  });
+
+  const result = await response.json();
+
+  if (response.ok) {
+    alert('Comunidad creada exitosamente');
+  } else {
+    alert(`Error: ${result.message}`);
+  }
+};
+---
+
+<Layout title="Crear Comunidad">
+  <main class="flex items-center justify-center min-h-screen bg-transparent dark:bg-transparent">
+    <article class="max-w-md w-full mx-4 p-8 bg-transparent dark:bg-transparent rounded-none shadow-none">
+      <!-- Logo -->
+      <div class="flex justify-center mb-6">
+        <img src="/assets/img/logo.webp" alt="AlertAR Logo" class="w-24 h-24" />
+      </div>
+
+      <h1 class="text-3xl font-bold text-center text-black dark:text-gray-100 mb-4">
+        Crear Comunidad
+      </h1>
+
+      <form onsubmit={handleSubmit}>
+        <div class="mb-4">
+          <label for="nombre" class="block text-sm mb-2 text-gray-700 dark:text-gray-300"></label>
+          <input
+            type="text"
+            id="nombre"
+            name="nombre"
+            placeholder="Nombre de la Comunidad"
+            class="shadow appearance-none border rounded-full w-full py-2 px-3 text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 leading-tight focus:outline-none focus:shadow-outline"
+            required
+          />
+        </div>
+
+        <div class="mb-4">
+          <label for="codigoPostal" class="block text-sm mb-2 text-gray-700 dark:text-gray-300"></label>
+          <input
+            type="text"
+            id="codigoPostal"
+            name="codigoPostal"
+            placeholder="Código Postal"
+            class="shadow appearance-none border rounded-full w-full py-2 px-3 text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 leading-tight focus:outline-none focus:shadow-outline"
+            required
+          />
+        </div>
+
+        <div class="mb-4">
+          <label for="descripcion" class="block text-sm mb-2 text-gray-700 dark:text-gray-300"></label>
+          <textarea
+            id="descripcion"
+            name="descripcion"
+            placeholder="Descripción de la Comunidad"
+            class="shadow appearance-none border rounded-2xl w-full py-2 px-3 text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 leading-tight focus:outline-none focus:shadow-outline"
+            rows="4"
+            required
+          ></textarea>
+        </div>
+
+        <div class="flex justify-center">
+          <button
+            type="submit"
+            class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg w-full"
+          >
+            Crear Comunidad
+          </button>
+        </div>
+      </form>
+    </article>
+  </main>
+</Layout>

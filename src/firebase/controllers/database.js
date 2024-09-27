@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import { db } from "../client.js";
+=======
+import { db } from "../client";
+>>>>>>> arsabot-rs
 import { collection, addDoc, getDocs } from "firebase/firestore";
 
 export async function addUser() {

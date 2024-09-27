@@ -12,11 +12,11 @@ document.addEventListener("DOMContentLoaded", () => {
     loginModal.classList.add("hidden");
   });
 
-  window.addEventListener("click", (event) => {
-    if (event.target === loginModal) {
-      loginModal.classList.add("hidden");
-    }
-  });
+  // window.addEventListener("click", (event) => {
+  //   if (event.target === loginModal) {
+  //     loginModal.classList.add("hidden");
+  //   }
+  // });
 
   // Registrarse
   const openRegisterModalBtn = document.getElementById("openRegisterModalBtn");
@@ -33,9 +33,9 @@ document.addEventListener("DOMContentLoaded", () => {
     registerModal.classList.add("hidden");
   });
 
-  window.addEventListener("click", (event) => {
-    if (event.target === registerModal) {
-      registerModal.classList.add("hidden");
-    }
-  });
+  // window.addEventListener("click", (event) => {
+  //   if (event.target === registerModal) {
+  //     registerModal.classList.add("hidden");
+  //   }
+  // });
 });

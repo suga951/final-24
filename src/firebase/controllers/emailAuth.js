@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import { auth } from "../client.js";
+=======
+import { auth } from "../client";
+>>>>>>> arsabot-rs
 import { signInWithEmailAndPassword } from "firebase/auth";
 
 let email = "test@test.com";

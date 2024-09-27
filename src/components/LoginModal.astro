@@ -1,4 +1,5 @@
 ---
+<<<<<<< HEAD
 import { app } from "../firebase/server";
 import { getAuth } from "firebase-admin/auth";
 
@@ -10,14 +11,37 @@ if (Astro.cookies.has("__session")) {
     return Astro.redirect("/chat");
   }
 }
+=======
+
+import { app } from '../firebase/server';
+import { getAuth } from 'firebase-admin/auth';
+
+const auth = getAuth(app);
+
+async function checkSession() {
+  if (Astro.cookies.has('__session')) {
+    const sessionCookie = Astro.cookies.get('__session')?.value;
+    try {
+      const decodedCookie = await auth.verifySessionCookie(sessionCookie!);
+      if (decodedCookie) {
+        return Astro.redirect('/chat');
+      }
+    } catch (error) {
+      console.error("Error al verificar la cookie de sesión:", error);
+    }
+  }
+}
+
+await checkSession();
+>>>>>>> arsabot-rs
 ---
 
 <div
   id="loginModal"
-  class="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center hidden dark:bg-opacity-70"
+  class="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center hidden dark:bg-opacity-70 z-50"
 >
   <section
-    class="bg-white dark:bg-gray-800 dark:text-white p-6 md:p-10 rounded-2xl shadow-md w-full max-w-md relative"
+    class="bg-gradient-to-b from-blue-300 to-blue-700 dark:bg-gradient-to-b dark:from-blue-800 dark:to-black dark:text-white p-6 md:p-10 rounded-2xl shadow-md w-full max-w-md relative max-h-[90vh] overflow-auto"
   >
     <header class="flex justify-end">
       <button
@@ -30,8 +54,16 @@ if (Astro.cookies.has("__session")) {
       </button>
     </header>
     <main>
+<<<<<<< HEAD
       <h2 id="login-title" class="text-center text-2xl mb-4">Iniciar Sesión</h2>
       <form action="/api/auth/signin" method="post">
+=======
+        <section class="flex flex-col items-center justify-center mb-6">
+          <img src="/assets/icons/login-icon.webp" alt="Icono de inicio de sesión" class="w-12 h-12" />
+        <h2 id="login-title" class="text-center text-2xl mb-4">Iniciar Sesión</h2>
+      </section>
+      <form id="loginForm">
+>>>>>>> arsabot-rs
         <div class="mb-4">
           <label for="login-email" class="sr-only">Correo Electrónico</label>
           <input
@@ -54,7 +86,7 @@ if (Astro.cookies.has("__session")) {
             required
           />
         </div>
-        <button
+        <button 
           type="submit"
           class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full w-full focus:outline-none focus:shadow-outline"
         >
@@ -75,6 +107,7 @@ if (Astro.cookies.has("__session")) {
         <p class="text-gray-600">- O -</p>
       </div>
       <div class="flex flex-col gap-4 mb-6">
+<<<<<<< HEAD
         <button
           type="button"
           id="google"
@@ -82,15 +115,29 @@ if (Astro.cookies.has("__session")) {
         >
           <img
             src="/assets/img/google.webp"
+=======
+        <button 
+          id="google"
+          type="button"
+          class="bg-red-400 hover:bg-red-500 text-white font-bold py-2 px-4 rounded-full w-full md:w-auto"
+        >
+          <img
+            src="assets/img/google.webp"
+>>>>>>> arsabot-rs
             alt="Google icon"
             class="w-6 h-6 inline-block"
           />
           Iniciar con Google
         </button>
+<<<<<<< HEAD
+=======
+        
+>>>>>>> arsabot-rs
       </div>
     </footer>
   </section>
 </div>
+<<<<<<< HEAD
 <script>
   import {
     getAuth,
@@ -146,4 +193,86 @@ if (Astro.cookies.has("__session")) {
       window.location.assign(res.url);
     }
   });
+=======
+
+<script>
+import { getAuth, GoogleAuthProvider, signInWithPopup, signInWithEmailAndPassword } from 'firebase/auth';
+import { app } from '../firebase/client';
+
+const auth = getAuth(app);
+
+
+const handleEmailLogin = async (e) => {
+  e.preventDefault();
+  const email = document.getElementById('login-email').value;
+  const password = document.getElementById('login-password').value;
+
+  try {
+    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+    const idToken = await userCredential.user.getIdToken();
+
+
+    const response = await fetch("/api/auth/signin", {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${idToken}`,
+        'Content-Type': 'application/json',
+      },
+    });
+
+    const data = await response.json();
+
+    if (response.ok) {
+      window.location.assign("/home");
+    } else {
+      console.error("Error:", data);
+    }
+  } catch (error) {
+    console.error("Error al iniciar sesión:", error);
+  }
+};
+
+const handleGoogleLogin = async () => {
+  const provider = new GoogleAuthProvider();
+  try {
+   
+    const userCredential = await signInWithPopup(auth, provider);
+    const idToken = await userCredential.user.getIdToken();
+
+    const response = await fetch("/api/auth/signin", {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${idToken}`,
+        'Content-Type': 'application/json',
+      },
+    });
+
+    const data = await response.json();
+
+    
+    if (response.ok) {
+      window.location.assign("/home");
+    } else {
+      console.error("Error:", data);
+    }
+  } catch (error) {
+    console.error("Error al iniciar sesión con Google:", error);
+  }
+};
+
+const initAuthEvents = () => {
+  const form = document.getElementById('loginForm');
+  if (form) {
+    form.addEventListener('submit', handleEmailLogin);
+  }
+
+  const googleSignin = document.querySelector("#google");
+  if (googleSignin) {
+    googleSignin.addEventListener('click', handleGoogleLogin);
+  }
+};
+
+document.addEventListener('DOMContentLoaded', initAuthEvents);
+
+>>>>>>> arsabot-rs
 </script>

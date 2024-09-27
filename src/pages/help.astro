@@ -1,17 +1,17 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import EmergencyMenu from '../components/EmergencyMenu';
-import AlertButton from '../components/AlertButton.astro';
+import NavBar from "../components/NavBar.astro";
 ---
 
-<Layout>
+<Layout title="Ayuda.">
   <div class="flex flex-col items-center justify-center min-h-screen bg-blue-100 relative">
     
-    <!-- Sección de tutoriales -->
+
     <div class="bg-white p-6 rounded-lg shadow-md w-full max-w-4xl">
       <h2 class="text-3xl font-semibold text-center mb-8">Ayuda y Tutoriales</h2>
 
-      <!-- Tutorial: Cómo usar la aplicación -->
+   
       <section class="mb-8">
         <h3 class="text-2xl font-semibold mb-4">Cómo usar la aplicación</h3>
         <p class="text-gray-700 leading-relaxed">
@@ -26,7 +26,7 @@ import AlertButton from '../components/AlertButton.astro';
         </ol>
       </section>
 
-      <!-- Tutorial: Cómo generar un reporte -->
+    
       <section class="mb-8">
         <h3 class="text-2xl font-semibold mb-4">Cómo generar un reporte</h3>
         <p class="text-gray-700 leading-relaxed">
@@ -41,7 +41,6 @@ import AlertButton from '../components/AlertButton.astro';
         </ol>
       </section>
 
-      <!-- Sección de preguntas frecuentes (opcional) -->
       <section>
         <h3 class="text-2xl font-semibold mb-4">Preguntas Frecuentes</h3>
         <p class="text-gray-700 leading-relaxed">
@@ -50,26 +49,11 @@ import AlertButton from '../components/AlertButton.astro';
       </section>
     </div>
 
-    <!-- Botón de Alerta y Emergencias con margen inferior -->
+    <NavBar />
     <div class="mt-6"> 
-      <AlertButton />
       <EmergencyMenu client:load />
     </div>
 
-    <!-- Navbar: móvil abajo, escritorio arriba -->
-    <nav class="w-full fixed bottom-0 lg:top-0 lg:bottom-auto bg-blue-600 text-white flex justify-around items-center py-4 shadow-md lg:flex-row flex-row">
-      <a href="/chat" class="flex flex-col items-center">
-        <img src="/icons/home.webp" alt="Inicio" class="w-6 h-6 mb-1" />
-        <span class="text-xs">Inicio</span>
-      </a>
-      <a href="/help" class="flex flex-col items-center">
-        <img src="/icons/help-icon.webp" alt="Ayuda" class="w-6 h-6 mb-1" />
-        <span class="text-xs">Ayuda</span>
-      </a>
-      <a href="/profile" class="flex flex-col items-center">
-        <img src="/icons/profile-icon.webp" alt="Perfil" class="w-6 h-6 mb-1" />
-        <span class="text-xs">Perfil</span>
-      </a>
-    </nav>
+  
   </div>
 </Layout>

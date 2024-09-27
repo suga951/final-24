@@ -1,15 +1,24 @@
 <div class="flex flex-col min-h-screen">
   <div class="flex flex-col items-center justify-center flex-grow p-4">
-    <div class="max-w-md w-full mx-4 p-8 bg-transparent dark:bg-transparent rounded-none shadow-none">
+    <div
+      class="max-w-md w-full mx-4 p-8 bg-transparent dark:bg-transparent rounded-none shadow-none"
+    >
       <!-- Logo -->
+<<<<<<< HEAD
       <div class="flex justify-center mb-6">
         <img src="../assets/img/logo.webp" alt="AlertAR Logo" class="w-24 h-24" />
+=======
+      <div class="flex justify-center mb-6 z-0">
+        <img src="assets/img/logo.webp" alt="AlertAR Logo" class="w-24 h-24" />
+>>>>>>> arsabot-rs
       </div>
 
       <h1 class="text-3xl font-bold text-center text-black dark:text-gray-100 mb-4">
-        AlertAR
+        Alert<span class="relative">AR<img src="../../public/assets/img/argentina2.webp" class="flag-image" alt="Bandera Argentina"></span>
       </h1>
-      <h2 class="text-lg font-medium text-center text-gray-700 dark:text-gray-300 mb-8">
+      <h2
+        class="text-lg font-medium text-center text-gray-700 dark:text-gray-300 mb-8"
+      >
         Tu barrio seguro
       </h2>
 
@@ -32,10 +41,32 @@
 
   <!-- Footer -->
   <footer class="text-center text-sm text-gray-600 dark:text-gray-300 p-4">
+<<<<<<< HEAD
     Examen de Desarrollo de Aplicación de Alarma Vecinal con Chat - 2024 <br />
     Integrantes: Alexis, Agustín, Marcos, Rodrigo <br />
     © 2024 - Todos los derechos reservados
+=======
+    Examen Alarma con Chat en tiempo real - 2024 <br />
+    Integrantes: Alexis, Agustín, Marcos, Rodrigo <br />
+>>>>>>> arsabot-rs
   </footer>
 </div>
 
+<script src="/scripts/modal.js" defer></script>
+
+<style>
+ .flag-image {
+  position: absolute;
+  width: 4rem; 
+  height: auto;
+  left: 1em; 
+  top: 50%;
+  transform: translateY(-90%) rotate(25deg); 
+  opacity: 0.6;
+  z-index: -1; 
+}
+
+
+
+</style>
 <script src="/scripts/modal.js" defer></script>
