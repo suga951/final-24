@@ -1,11 +1,11 @@
-import { useState, useEffect } from "react";
-import "../layouts/styles.css";
+import { useState, useEffect } from "react"
+import "../layouts/styles.css"
 import {
   GoogleAuthProvider,
   onAuthStateChanged,
   signInWithPopup,
   signOut,
-} from "firebase/auth";
+} from "firebase/auth"
 import {
   getFirestore,
   onSnapshot,
@@ -14,68 +14,69 @@ import {
   orderBy,
   query,
   serverTimestamp,
-} from "firebase/firestore";
-import { auth, app } from "../firebase/client";
+} from "firebase/firestore"
+import { auth, app } from "../firebase/client"
 
-const db = getFirestore(app);
+const db = getFirestore(app)
 
-function App() {
-  const [user, setUser] = useState(null);
-  const [messages, setMessages] = useState([]);
-  const [newMessage, setNewMessage] = useState("");
+function App ({ communityId }) {
+  const [user, setUser] = useState(null)
+  const [messages, setMessages] = useState([])
+  const [newMessage, setNewMessage] = useState("")
 
   useEffect(() => {
-    const q = query(collection(db, "messages"), orderBy("timestamp"));
+    const q = query(collection(db, "messages"), orderBy("timestamp"))
     const unsubscribe = onSnapshot(q, (snapshot) => {
       setMessages(
         snapshot.docs.map((doc) => ({
           id: doc.id,
           data: doc.data(),
         }))
-      );
-    });
-    return unsubscribe;
-  }, []);
+      )
+    })
+    return unsubscribe
+  }, [])
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        setUser(user);
+        setUser(user)
       } else {
-        setUser(null);
+        setUser(null)
       }
-    });
-  }, []);
+    })
+  }, [])
 
   const sendMessage = async () => {
-    if (newMessage.trim() === "") return;
+    if (newMessage.trim() === "") return
     await addDoc(collection(db, "messages"), {
       uid: user.uid,
       photoURL: user.photoURL,
       displayName: user.displayName,
       text: newMessage,
+      communityId: communityId,
       timestamp: serverTimestamp(),
-    });
+    })
 
-    setNewMessage("");
-  };
+    setNewMessage("")
+  }
 
   const handleGoogleLogin = async () => {
-    const provider = new GoogleAuthProvider();
+    const provider = new GoogleAuthProvider()
     try {
-      await signInWithPopup(auth, provider);
+      await signInWithPopup(auth, provider)
     } catch (error) {
-      console.log(error);
+      console.log(error)
     }
-  };
+  }
 
   const handleLogout = async () => {
     try {
-      await signOut(auth); // Cerrar sesión
+      await signOut(auth) // Cerrar sesión
     } catch (error) {
-      console.log(error);
+      console.log(error)
     }
-  };
+  }
 
   return (
     <div className="flex flex-col justify-between py-10">
@@ -94,16 +95,14 @@ function App() {
             {messages.map((msg) => (
               <div
                 key={msg.id}
-                className={`message flex ${
-                  msg.data.uid === user.uid ? "justify-end" : "justify-start"
-                }`}
+                className={`message flex ${msg.data.uid === user.uid ? "justify-end" : "justify-start"
+                  }`}
               >
                 <div
-                  className={`message flex flex-row p-3 gap-3 rounded-[20px] items-center ${
-                    msg.data.uid === user.uid
-                      ? "bg-blue-500 text-white"
-                      : "bg-white text-black"
-                  }`}
+                  className={`message flex flex-row p-3 gap-3 rounded-[20px] items-center ${msg.data.uid === user.uid
+                    ? "bg-blue-500 text-white"
+                    : "bg-white text-black"
+                    }`}
                 >
                   <img
                     className="w-10 h-10 rounded-full mr-3"
@@ -122,7 +121,7 @@ function App() {
               placeholder="Escribe un mensaje..."
               onKeyDown={(e) => {
                 if (e.key === "Enter") {
-                  sendMessage();
+                  sendMessage()
                 }
               }}
             />
@@ -143,7 +142,7 @@ function App() {
         </button>
       )}
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
