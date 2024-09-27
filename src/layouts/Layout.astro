@@ -12,7 +12,7 @@ const { title } = Astro.props;
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
   </head>
-  <body class="bg-gradient-to-b from-blue-900 to-blue-200 text-black dark:bg-gradient-to-b dark:from-blue-800 dark:to-black dark:text-white">
+  <body class="bg-gradient-to-b from-blue-900 to-blue-200 text-black dark:bg-gradient-to-b dark:from-blue-800 dark:to-black dark:text-white h-80">
     <main>
 
       <slot />
@@ -27,6 +27,7 @@ const { title } = Astro.props;
     flex-direction: column;
     min-height: 100vh;
   }
+
 
   main {
     flex-grow: 1;

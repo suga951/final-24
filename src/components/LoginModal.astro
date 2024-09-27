@@ -1,5 +1,5 @@
 ---
-// Este bloque debe ser asíncrono para manejar correctamente el uso de `await`
+
 import { app } from '../firebase/server';
 import { getAuth } from 'firebase-admin/auth';
 
@@ -15,7 +15,6 @@ async function checkSession() {
       }
     } catch (error) {
       console.error("Error al verificar la cookie de sesión:", error);
-      // Manejo de errores, como invalidar la cookie si es necesario
     }
   }
 }
@@ -28,7 +27,7 @@ await checkSession();
   class="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center hidden dark:bg-opacity-70 z-50"
 >
   <section
-    class="bg-gradient-to-b from-blue-300 to-blue-700 dark:bg-gradient-to-b dark:from-blue-800 dark:to-black dark:text-white p-6 md:p-10 rounded-2xl shadow-md w-full max-w-md relative"
+    class="bg-gradient-to-b from-blue-300 to-blue-700 dark:bg-gradient-to-b dark:from-blue-800 dark:to-black dark:text-white p-6 md:p-10 rounded-2xl shadow-md w-full max-w-md relative max-h-[90vh] overflow-auto"
   >
     <header class="flex justify-end">
       <button
@@ -89,17 +88,6 @@ await checkSession();
         <p class="text-gray-600">- O -</p>
       </div>
       <div class="flex flex-col gap-4 mb-6">
-        <button
-          type="button"
-          class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full w-full md:w-auto"
-        >
-          <img
-            src="assets/img/fb.webp"
-            alt="Facebook icon"
-            class="w-6 h-6 inline-block"
-          />
-          Iniciar con Facebook
-        </button>
         <button 
           id="google"
           type="button"
@@ -112,100 +100,89 @@ await checkSession();
           />
           Iniciar con Google
         </button>
-        <button
-          type="button"
-          class="bg-gray-500 hover:bg-gray-800 text-white font-bold py-2 px-4 rounded-full w-full md:w-auto"
-        >
-          <img
-            src="assets/img/apple.webp"
-            alt="Apple icon"
-            class="w-6 h-6 inline-block"
-          />
-          Iniciar con Apple
-        </button>
+        
       </div>
     </footer>
   </section>
 </div>
 
 <script>
-  import {
-    getAuth,
-    GoogleAuthProvider,
-    signInWithPopup,
-    signInWithEmailAndPassword,
-  } from 'firebase/auth';
-  import { app } from '../firebase/client';
+import { getAuth, GoogleAuthProvider, signInWithPopup, signInWithEmailAndPassword } from 'firebase/auth';
+import { app } from '../firebase/client';
 
-  const auth = getAuth(app);
+const auth = getAuth(app);
 
-  document.addEventListener('DOMContentLoaded', () => {
-    // Iniciar sesion con correo y contraseña
-    const form = document.getElementById('loginForm');
-    if (form) {
-      form.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const email = document.getElementById('login-email').value;
-        const password = document.getElementById('login-password').value;
 
-        try {
-          const userCredential = await signInWithEmailAndPassword(auth, email, password);
-          const idToken = await userCredential.user.getIdToken();
+const handleEmailLogin = async (e) => {
+  e.preventDefault();
+  const email = document.getElementById('login-email').value;
+  const password = document.getElementById('login-password').value;
 
-          // Hace una solicitud POST a tu API backend para manejar el inicio de sesión
-          const response = await fetch("/api/auth/signin", {
-            method: 'POST',
-            headers: {
-              Authorization: `Bearer ${idToken}`,
-              'Content-Type': 'application/json',
-            },
-          });
+  try {
+    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+    const idToken = await userCredential.user.getIdToken();
 
-          const data = await response.json();
 
-          // Redirige al usuario a la página de inicio
-          if (response.ok) {
-            window.location.assign("/home");
-          } else {
-            console.error("Error:", data);
-          }
-        } catch (error) {
-          console.error("Error al iniciar sesión:", error);
-        }
-      });
+    const response = await fetch("/api/auth/signin", {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${idToken}`,
+        'Content-Type': 'application/json',
+      },
+    });
+
+    const data = await response.json();
+
+    if (response.ok) {
+      window.location.assign("/home");
+    } else {
+      console.error("Error:", data);
     }
+  } catch (error) {
+    console.error("Error al iniciar sesión:", error);
+  }
+};
 
-    // Iniciar sesión con Google
-    const googleSignin = document.querySelector("#google"); // Asegúrate que este sea el ID correcto del botón
-    if (googleSignin) {
-      googleSignin.addEventListener("click", async () => {
-        const provider = new GoogleAuthProvider();
-        try {
-          // Abrir ventana emergente para Google Sign-In
-          const userCredential = await signInWithPopup(auth, provider);
-          const idToken = await userCredential.user.getIdToken();
+const handleGoogleLogin = async () => {
+  const provider = new GoogleAuthProvider();
+  try {
+   
+    const userCredential = await signInWithPopup(auth, provider);
+    const idToken = await userCredential.user.getIdToken();
 
-          // Hacer una solicitud POST a tu API backend para manejar el inicio de sesión
-          const response = await fetch("/api/auth/signin", {
-            method: 'POST',
-            headers: {
-              Authorization: `Bearer ${idToken}`,
-              'Content-Type': 'application/json',
-            },
-          });
+    const response = await fetch("/api/auth/signin", {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${idToken}`,
+        'Content-Type': 'application/json',
+      },
+    });
 
-          const data = await response.json();
+    const data = await response.json();
 
-          // Redirigir al usuario a la página de inicio
-          if (response.ok) {
-            window.location.assign("/home");
-          } else {
-            console.error("Error:", data);
-          }
-        } catch (error) {
-          console.error("Error al iniciar sesión con Google:", error);
-        }
-      });
+    
+    if (response.ok) {
+      window.location.assign("/home");
+    } else {
+      console.error("Error:", data);
     }
-  });
+  } catch (error) {
+    console.error("Error al iniciar sesión con Google:", error);
+  }
+};
+
+const initAuthEvents = () => {
+  const form = document.getElementById('loginForm');
+  if (form) {
+    form.addEventListener('submit', handleEmailLogin);
+  }
+
+  const googleSignin = document.querySelector("#google");
+  if (googleSignin) {
+    googleSignin.addEventListener('click', handleGoogleLogin);
+  }
+};
+
+document.addEventListener('DOMContentLoaded', initAuthEvents);
+
 </script>

@@ -1,7 +1,7 @@
----
+
 import { useState } from 'react';
 import Layout from '../layouts/Layout.astro';
-import ThemeIcon from '../components/DarkModeToggle.astro';
+import ThemeIcon from './DarkModeToggle.astro';
 
 // Ejemplo de comunidades (esto normalmente vendría de una base de datos)
 const comunidades = [
@@ -20,10 +20,6 @@ const handleSubmit = (event) => {
   const codigoPostal = formData.get('codigoPostal');
   const filteredCommunities = filterComunidades(codigoPostal);
 }
----
-
-<Layout title="Unirse a Comunidad">
-  <ThemeIcon />
   <div class="flex flex-col min-h-screen bg-gradient-to-b from-blue-300 to-blue-700 dark:bg-gradient-to-b dark:from-blue-800 dark:to-black">
     <div class="flex flex-col items-center justify-center flex-grow p-4">
       <div class="max-w-md w-full mx-4 p-8 bg-white dark:bg-gray-800 rounded-lg shadow-lg">
@@ -33,7 +29,7 @@ const handleSubmit = (event) => {
           <p class="text-lg text-gray-700 dark:text-gray-300 mb-8">Ingresa tu código postal para encontrar comunidades cercanas.</p>
         </header>
 
-        <!-- Formulario para ingresar código postal -->
+       
         <form onsubmit={handleSubmit} class="mb-6">
           <div class="mb-4">
             <label for="codigoPostal" class="block text-sm text-gray-700 dark:text-gray-300 mb-2">Código Postal</label>
@@ -54,7 +50,7 @@ const handleSubmit = (event) => {
           </button>
         </form>
 
-        <!-- Mostrar ejemplos de comunidades -->
+  
         <section id="comunidades-list" class="mt-6">
           <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-4">Comunidades disponibles</h2>
 
@@ -79,4 +75,3 @@ const handleSubmit = (event) => {
       </div>
     </div>
   </div>
-</Layout>

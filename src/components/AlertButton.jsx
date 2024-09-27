@@ -7,7 +7,7 @@ const AlertButton = () => {
 
   const handleButtonClick = () => {
     setScreenRed(true);
-    const audio = new Audio('/assets/audio/alerta_do_flequillo.mp3');
+    const audio = new Audio('/assets/audio/siren.mp3');
     audio.play();
     setTimeout(() => {
       setModalOpen(true);
