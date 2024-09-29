@@ -1,11 +1,5 @@
-import { useState, useEffect } from "react"
-import "../layouts/styles.css"
-import {
-  GoogleAuthProvider,
-  onAuthStateChanged,
-  signInWithPopup,
-  signOut,
-} from "firebase/auth"
+import { useState, useEffect, useRef } from "react";
+import "../layouts/styles.css";
 import {
   getFirestore,
   onSnapshot,
@@ -14,41 +8,39 @@ import {
   orderBy,
   query,
   serverTimestamp,
-} from "firebase/firestore"
-import { auth, app } from "../firebase/client"
+} from "firebase/firestore";
+import { auth } from "../firebase/client";
 
-const db = getFirestore(app)
+const db = getFirestore();
 
-function App ({ communityId }) {
-  const [user, setUser] = useState(null)
-  const [messages, setMessages] = useState([])
-  const [newMessage, setNewMessage] = useState("")
+function App({ communityId }) {
+  const [user, setUser] = useState({ displayName: "Usuario", uid: "123", photoURL: "/default-avatar.png" }); // Asignar usuario predeterminado
+  const [messages, setMessages] = useState([]);
+  const [newMessage, setNewMessage] = useState("");
+  const chatEndRef = useRef(null);
 
+  // Escuchar mensajes en Firestore y ordenarlos por timestamp
   useEffect(() => {
-    const q = query(collection(db, "messages"), orderBy("timestamp"))
+    const q = query(collection(db, "messages"), orderBy("timestamp"));
     const unsubscribe = onSnapshot(q, (snapshot) => {
       setMessages(
         snapshot.docs.map((doc) => ({
           id: doc.id,
           data: doc.data(),
         }))
-      )
-    })
-    return unsubscribe
-  }, [])
+      );
+    });
+    return unsubscribe;
+  }, []);
 
+  // Auto-scroll cuando se envían o reciben mensajes
   useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        setUser(user)
-      } else {
-        setUser(null)
-      }
-    })
-  }, [])
+    chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
 
+  // Enviar mensaje
   const sendMessage = async () => {
-    if (newMessage.trim() === "") return
+    if (newMessage.trim() === "") return;
     await addDoc(collection(db, "messages"), {
       uid: user.uid,
       photoURL: user.photoURL,
@@ -56,93 +48,67 @@ function App ({ communityId }) {
       text: newMessage,
       communityId: communityId,
       timestamp: serverTimestamp(),
-    })
-
-    setNewMessage("")
-  }
-
-  const handleGoogleLogin = async () => {
-    const provider = new GoogleAuthProvider()
-    try {
-      await signInWithPopup(auth, provider)
-    } catch (error) {
-      console.log(error)
-    }
-  }
-
-  const handleLogout = async () => {
-    try {
-      await signOut(auth) // Cerrar sesión
-    } catch (error) {
-      console.log(error)
-    }
-  }
+    });
+    setNewMessage("");
+  };
 
   return (
-    <div className="flex flex-col justify-between py-10">
-      {user ? (
-        <div className="w-full max-w-md mx-auto">
-          <div className="text-white mb-4">
-            Sesion de {user.displayName}
-            <button
-              className="ml-4 bg-red-500 text-white p-2 rounded"
-              onClick={handleLogout}
+    <div className="flex flex-col justify-between py-10 min-h-screen">
+      <div className="w-full max-w-md mx-auto">
+        {/* Mostrar mensajes */}
+        <div className="chat-box flex-grow overflow-y-auto max-h-[60vh]">
+          {messages.map((msg) => (
+            <div
+              key={msg.id}
+              className={`message flex flex-col ${
+                msg.data.uid === user.uid ? "items-end" : "items-start"
+              }`}
             >
-              Cerrar sesión
-            </button>
-          </div>
-          <div className="chat-box flex-grow flex-col-reverse overflow-auto">
-            {messages.map((msg) => (
+              <span className="text-xs text-gray-900 mb-1">
+                {msg.data.displayName}
+              </span>
               <div
-                key={msg.id}
-                className={`message flex ${msg.data.uid === user.uid ? "justify-end" : "justify-start"
-                  }`}
-              >
-                <div
-                  className={`message flex flex-row p-3 gap-3 rounded-[20px] items-center ${msg.data.uid === user.uid
+                className={`message flex flex-row p-3 gap-3 rounded-[20px] items-center ${
+                  msg.data.uid === user.uid
                     ? "bg-blue-500 text-white"
                     : "bg-white text-black"
-                    }`}
-                >
-                  <img
-                    className="w-10 h-10 rounded-full mr-3"
-                    src={msg.data.photoURL}
-                    alt="User Avatar"
-                  />
-                  <span>{msg.data.text}</span>
-                </div>
+                }`}
+              >
+                <img
+                  className="w-10 h-10 rounded-full mr-3"
+                  src={msg.data.photoURL}
+                  alt="User Avatar"
+                />
+                <span>{msg.data.text}</span>
               </div>
-            ))}
-          </div>
-          <div className="input-container">
-            <input
-              value={newMessage}
-              onChange={(e) => setNewMessage(e.target.value)}
-              placeholder="Escribe un mensaje..."
-              onKeyDown={(e) => {
-                if (e.key === "Enter") {
-                  sendMessage()
-                }
-              }}
-            />
-            <button
-              className="bg-blue-500 rounded-full text-white p-3"
-              onClick={sendMessage}
-            >
-              Enviar
-            </button>
-          </div>
+            </div>
+          ))}
+          <div ref={chatEndRef} />
         </div>
-      ) : (
-        <button
-          className="bg-white rounded-[10px] p-3"
-          onClick={handleGoogleLogin}
-        >
-          Ingresar con Google
-        </button>
-      )}
+
+        {/* Input para enviar mensajes */}
+        <div className="input-container flex mt-4">
+          <input
+            value={newMessage}
+            onChange={(e) => setNewMessage(e.target.value)}
+            placeholder="Escribe un mensaje..."
+            className="flex-grow p-2 border border-gray-300 rounded-l"
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                sendMessage();
+              }
+            }}
+          />
+          <button
+            className="bg-blue-500 rounded-r text-white p-3"
+            onClick={sendMessage}
+          >
+            Enviar
+          </button>
+        </div>
+      </div>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;

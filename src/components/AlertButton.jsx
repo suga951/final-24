@@ -41,7 +41,7 @@ const AlertButton = () => {
         >
           <article
             id="alertModalContent"
-            className="bg-white dark:bg-gray-800 dark:text-white p-6 md:p-10 rounded-lg shadow-2xl w-full max-w-md relative transition-transform duration-300 transform scale-100 opacity-100"
+            className="bg-white dark:bg-gray-800 dark:text-white p-6 md:p-10 rounded-lg shadow-2xl w-full max-w-md relative transition-transform duration-300 transform scale-100 opacity-100 z-9999"
           >
             <button
               className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 dark:text-gray-300 dark:hover:text-white"
@@ -75,16 +75,6 @@ const AlertButton = () => {
                   placeholder="Ubicación"
                   className="shadow appearance-none border rounded-full w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   required
-                />
-              </div>
-              <div className="mb-4">
-                <label htmlFor="photo" className="sr-only">Subir Foto/Video</label>
-                <input
-                  type="file"
-                  id="photo"
-                  name="photo"
-                  accept="image/*,video/*"
-                  className="shadow appearance-none border rounded-full w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 />
               </div>
               <button
