@@ -1,6 +1,5 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import EmergencyMenu from '../components/EmergencyMenu';
 import NavBar from "../components/NavBar.astro";
 ---
 
@@ -8,7 +7,7 @@ import NavBar from "../components/NavBar.astro";
   <div class="flex flex-col items-center justify-center min-h-screen bg-blue-100 relative p-2 sm:p-4">
     
     <!-- Sección para actualizar perfil -->
-    <section class="bg-white p-3 sm:p-6 rounded-lg shadow-md w-full max-w-lg mb-16"> <!-- Añadido 'mb-16' -->
+    <section class="bg-white p-3 sm:p-6 rounded-lg shadow-md w-full max-w-lg mb-16">
       <h2 class="text-lg sm:text-2xl font-semibold text-center mb-3 sm:mb-4">Editar Perfil</h2>
 
       <!-- Foto de perfil -->
@@ -49,11 +48,6 @@ import NavBar from "../components/NavBar.astro";
         </div>
       </form>
     </section>
-
-    <!-- Menú de Emergencia -->
-    <div class="mt-4 sm:mt-6 w-full">
-      <EmergencyMenu client:load />
-    </div>
 
     <!-- Barra de Navegación -->
     <NavBar />

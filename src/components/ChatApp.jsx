@@ -1,6 +1,9 @@
 import { useState, useEffect, useRef } from "react";
 import "../layouts/styles.css";
 import {
+  onAuthStateChanged,
+} from "firebase/auth";
+import {
   getFirestore,
   onSnapshot,
   collection,
@@ -9,17 +12,17 @@ import {
   query,
   serverTimestamp,
 } from "firebase/firestore";
-import { auth } from "../firebase/client";
+import { auth, app } from "../firebase/client";
 
-const db = getFirestore();
+const db = getFirestore(app);
 
-function App({ communityId }) {
-  const [user, setUser] = useState({ displayName: "Usuario", uid: "123", photoURL: "/default-avatar.png" }); // Asignar usuario predeterminado
+function App() {
+  const [user, setUser] = useState(null);
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
   const chatEndRef = useRef(null);
 
-  // Escuchar mensajes en Firestore y ordenarlos por timestamp
+
   useEffect(() => {
     const q = query(collection(db, "messages"), orderBy("timestamp"));
     const unsubscribe = onSnapshot(q, (snapshot) => {
@@ -33,82 +36,92 @@ function App({ communityId }) {
     return unsubscribe;
   }, []);
 
-  // Auto-scroll cuando se envían o reciben mensajes
+useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setUser(user);
+      } else {
+        setUser(null);
+      }
+    });
+  }, []);
+
+ 
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-  // Enviar mensaje
+  
   const sendMessage = async () => {
-    if (newMessage.trim() === "") return;
+    if (newMessage.trim() === "") return; 
     await addDoc(collection(db, "messages"), {
       uid: user.uid,
       photoURL: user.photoURL,
       displayName: user.displayName,
       text: newMessage,
-      communityId: communityId,
       timestamp: serverTimestamp(),
     });
-    setNewMessage("");
+    setNewMessage(""); 
   };
 
   return (
     <div className="flex flex-col justify-between py-10 min-h-screen">
-      <div className="w-full max-w-md mx-auto">
-        {/* Mostrar mensajes */}
-        <div className="chat-box flex-grow overflow-y-auto max-h-[60vh]">
-          {messages.map((msg) => (
-            <div
-              key={msg.id}
-              className={`message flex flex-col ${
-                msg.data.uid === user.uid ? "items-end" : "items-start"
-              }`}
-            >
-              <span className="text-xs text-gray-900 mb-1">
-                {msg.data.displayName}
-              </span>
+      {user && (
+        <div className="w-full max-w-md mx-auto">
+          <div className="chat-box flex-grow overflow-y-auto max-h-[60vh]">
+            {messages.map((msg) => (
               <div
-                className={`message flex flex-row p-3 gap-3 rounded-[20px] items-center ${
-                  msg.data.uid === user.uid
-                    ? "bg-blue-500 text-white"
-                    : "bg-white text-black"
+                key={msg.id}
+                className={`message flex flex-col ${
+                  msg.data.uid === user.uid ? "items-end" : "items-start"
                 }`}
               >
-                <img
-                  className="w-10 h-10 rounded-full mr-3"
-                  src={msg.data.photoURL}
-                  alt="User Avatar"
-                />
-                <span>{msg.data.text}</span>
+                
+                <span className="text-xs text-gray-900 mb-1">
+                  {msg.data.displayName}
+                </span>
+                <div
+                  className={`message flex flex-row p-3 gap-3 rounded-[20px] items-center ${
+                    msg.data.uid === user.uid
+                      ? "bg-blue-500 text-white"
+                      : "bg-white text-black"
+                  }`}
+                >
+                  <img
+                    className="w-10 h-10 rounded-full mr-3"
+                    src={msg.data.photoURL}
+                    alt="User Avatar"
+                  />
+                  <span>{msg.data.text}</span>
+                </div>
               </div>
-            </div>
-          ))}
-          <div ref={chatEndRef} />
+            ))}
+            <div ref={chatEndRef} />
+          </div>
+          <div className="input-container flex mt-4">
+            <input
+              value={newMessage}
+              onChange={(e) => setNewMessage(e.target.value)}
+              placeholder="Escribe un mensaje..."
+              className="flex-grow p-2 border border-gray-300 rounded-l"
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  sendMessage();
+                }
+              }}
+            />
+            <button
+              className="bg-blue-500 rounded-r text-white p-3"
+              onClick={sendMessage}
+            >
+              Enviar
+            </button>
+          </div>
         </div>
-
-        {/* Input para enviar mensajes */}
-        <div className="input-container flex mt-4">
-          <input
-            value={newMessage}
-            onChange={(e) => setNewMessage(e.target.value)}
-            placeholder="Escribe un mensaje..."
-            className="flex-grow p-2 border border-gray-300 rounded-l"
-            onKeyDown={(e) => {
-              if (e.key === "Enter") {
-                sendMessage();
-              }
-            }}
-          />
-          <button
-            className="bg-blue-500 rounded-r text-white p-3"
-            onClick={sendMessage}
-          >
-            Enviar
-          </button>
-        </div>
-      </div>
+      )}
     </div>
   );
 }
 
 export default App;
+

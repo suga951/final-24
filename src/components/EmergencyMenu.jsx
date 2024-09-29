@@ -6,15 +6,17 @@ export default function EmergencyMenu() {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="fixed right-4 z-50" style={{ bottom: '90px' }}>
+    <div className="fixed left-1/2 transform -translate-x-1/2 z-50" style={{ bottom: '90px' }}>
       <button
-        className="bg-cyan-500 rounded-full w-16 h-16 text-white text-2xl flex items-center justify-center border border-black shadow-lg"
+        className="bg-cyan-500 rounded-full px-4 py-2 text-white text-xs flex items-center justify-center border border-black shadow-lg space-x-2"
         onClick={() => setIsOpen(!isOpen)}
       >
-        {isOpen ? '-' : '+'}
+        <FaPhoneAlt /> 
+        <span>Números de emergencia</span> 
       </button>
+
       <div
-        className={`absolute bottom-20 right-0 flex flex-col space-y-2 slide-in ${isOpen ? 'slide-in-open' : ''} shadow-lg`}
+        className={`absolute bottom-20 left-1/2 transform -translate-x-1/2 flex flex-col space-y-2 slide-in ${isOpen ? 'slide-in-open' : ''} shadow-lg`}
       >
         {/* Opción Policía */}
         <a
