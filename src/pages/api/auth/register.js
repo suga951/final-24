@@ -4,7 +4,6 @@ import { app } from "../../../firebase/server"
 export const POST = async ({ request, redirect }) => {
   const auth = getAuth(app)
 
-  /* Get form data */
   const formData = await request.formData()
 
   const email = formData.get("email")?.toString()
@@ -18,7 +17,6 @@ export const POST = async ({ request, redirect }) => {
     )
   }
 
-  /* Create user */
   try {
     await auth.createUser({
       email,
@@ -27,10 +25,20 @@ export const POST = async ({ request, redirect }) => {
     })
   } catch (error) {
     console.log(error)
+
+    if (error.code === "auth/email-already-exists") {
+      return new Response(
+        "Ya existe un usuario con este correo",
+        { status: 400 }
+      )
+    }
+
+  
     return new Response(
-      "Something went wrong",
+      "Algo salió mal",
       { status: 400 }
     )
   }
+
   return redirect("/user-created")
 }

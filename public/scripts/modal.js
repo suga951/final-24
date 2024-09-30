@@ -39,3 +39,20 @@ document.addEventListener("DOMContentLoaded", () => {
   //   }
   // });
 });
+
+const togglePassword = document.getElementById("togglePassword");
+const passwordField = document.getElementById("login-password");
+const eyeIcon = document.getElementById("eye-icon");
+
+togglePassword.addEventListener("click", () => {
+  const type =
+    passwordField.getAttribute("type") === "password" ? "text" : "password";
+  passwordField.setAttribute("type", type);
+
+  if (type === "password") {
+    eyeIcon.src = "/assets/icons/eye-icon.svg";
+  } else {
+    eyeIcon.src = "/assets/icons/eye-slash-icon.svg";
+  }
+});
+

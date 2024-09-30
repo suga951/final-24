@@ -1,7 +1,6 @@
 ---
 import Layout from '@/layouts/Layout.astro';
-import EmergencyMenu from '@/components/EmergencyMenu';
-import ChatApp from '@/components/ChatApp.jsx';
+import App from '@/components/ChatApp.jsx';
 import NavBar from '@/components/NavBar.astro';
 
 const { chatId } = Astro.params;
@@ -11,13 +10,11 @@ const { chatId } = Astro.params;
   <nav class="absolute top-4 left-4">
     <a
       href="/home"
-      class="text-blue-500 dark:text-blue-300 font-semibold hover:no-underline"
+      class="text-blue-200 dark:text-blue-300 font-semibold hover:no-underline"
     >
       <span class="mr-2 text-lg">&larr;</span> Volver
     </a>
   </nav>
-  <NavBar />
-  <ChatApp client:load communityId={chatId} />
-
-  <EmergencyMenu client:load />
+  <App client:load communityId={chatId} />
+  <NavBar/>
 </Layout>
