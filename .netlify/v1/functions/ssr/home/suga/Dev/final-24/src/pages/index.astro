@@ -1,0 +1,19 @@
+---
+import Layout from "../layouts/Layout.astro";
+import ThemeIcon from "../components/DarkModeToggle.astro";
+import StartPage from "../components/StartPage.astro";
+import LoginModal from "../components/LoginModal.astro";
+import RegisterModal from "../components/RegisterModal.astro";
+import PoweredBy from "../components/PoweredBy.astro";
+---
+
+<Layout title="AlertAR - Bienvenida.">
+  <main>
+    <LoginModal />
+    <RegisterModal />
+    <ThemeIcon />
+    <StartPage />
+    <PoweredBy />
+  </main>
+</Layout>
+
